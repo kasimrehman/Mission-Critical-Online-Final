@@ -23,6 +23,8 @@ parameters:
 
 stages:
 
+
+
 - stage: deployglobalinfrastructure
   displayName: 'Deploy Global Infrastructure'
   jobs:
@@ -36,6 +38,10 @@ stages:
         deploy:
           steps:
           - checkout: self # checkout github repository
+          - task: TerraformInstaller@1
+            displayName: 'Install Terraform'
+            inputs:
+              terraformVersion: '1.9.5'   # pick a version you want
 
           - template: steps-set-pipeline-variables.yaml # load the set-pipeline-variables function (used for tags and prefixes)
 
