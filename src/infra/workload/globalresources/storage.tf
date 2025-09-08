@@ -7,7 +7,6 @@ resource "azurerm_storage_account" "global" {
   account_tier             = "Standard"
   account_replication_type = "RAGZRS"
   min_tls_version          = "TLS1_2"
-  allow_shared_key_access  = false
 
 
   blob_properties {
