@@ -25,7 +25,6 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = var.environment == "e2e" ? false : true
     }
   }
-  storage_use_azuread = true
 }
 
 provider "azapi" {}
