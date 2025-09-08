@@ -28,7 +28,7 @@ namespace AlwaysOn.BackgroundProcessor.Services
         private readonly ILogger<EventHubProcessorService> _logger;
         private readonly SysConfiguration _sysConfig;
         private readonly BlobContainerClient _blobContainerClient;
-        private readonly TableClient _tableClient;
+        //private readonly TableClient _tableClient;
         private readonly EventProcessorClient _processor;
         private readonly ActionProcessorService _actionProcessorService;
         private readonly TelemetryClient _telemetryClient;
@@ -65,7 +65,7 @@ namespace AlwaysOn.BackgroundProcessor.Services
             _processor = new EventProcessorClient(_blobContainerClient, _sysConfig.BackendReaderEventHubConsumergroup, _sysConfig.EventHubEndpoint, _sysConfig.EventHubName, credential: tokenCredential, new EventProcessorClientOptions() { TrackLastEnqueuedEventProperties = true });
 
             // Table client for the poison message store. We expect the table itself was already created as part of the infrastructure (see Terraform IaC)
-            _tableClient = new TableClient(new Uri($"https://{_sysConfig.BackendStorageAccountName}.table.core.windows.net"), SysConfiguration.BackendStoragePoisonMessagesTableName, tokenCredential);
+            //_tableClient = new TableClient(new Uri($"https://{_sysConfig.BackendStorageAccountName}.table.core.windows.net"), SysConfiguration.BackendStoragePoisonMessagesTableName, tokenCredential);
         }
 
         /// <summary>
@@ -211,6 +211,7 @@ namespace AlwaysOn.BackgroundProcessor.Services
         /// <returns></returns>
         private async Task WriteErroredEventToPoisonMessageStoreAsync(ProcessEventArgs eventArgs)
         {
+            /*
             try
             {
                 var entity = new TableEntity(eventArgs.Partition.PartitionId, eventArgs.Data.MessageId);
@@ -220,7 +221,7 @@ namespace AlwaysOn.BackgroundProcessor.Services
                 var cleanerRegex = new Regex(@"[-,;\./_\\\s]");
                 // add all properties
                 foreach (var property in eventArgs.Data.Properties)
-                {                 
+                {
                     var cleanedKey = cleanerRegex.Replace(property.Key, ""); // Remove special chars from key name else Table will complain
                     _logger.LogDebug("Adding event property key={key}, value={value} to TableEntity", cleanedKey, property.Value.ToString());
                     entity.TryAdd(cleanedKey, property.Value?.ToString());
@@ -238,6 +239,7 @@ namespace AlwaysOn.BackgroundProcessor.Services
             {
                 _logger.LogError(e, "Exception during writing to the poison message table store, messageId={messageId}. Data might have been lost!", eventArgs.Data.MessageId);
             }
+            */
         }
 
         private Task ProcessErrorHandler(ProcessErrorEventArgs eventArgs)

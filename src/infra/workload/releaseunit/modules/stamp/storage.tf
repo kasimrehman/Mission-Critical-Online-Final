@@ -59,10 +59,11 @@ resource "azurerm_storage_blob" "healthservice_state_blob" {
 }
 
 # Poison Messages Table for the BackgroundProcessor to store errored messages
+/*
 resource "azurerm_storage_table" "poison_messages" {
   name                 = "backgroundProcessorPoisonMessages"
   storage_account_name = azurerm_storage_account.private.name
-}
+}*/
 
 ####################################### PUBLIC STORAGE DIAGNOSTIC SETTINGS #######################################
 
