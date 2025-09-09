@@ -297,7 +297,7 @@ jobs: # using jobs so they each run in parallel
 
             # clear the storage container first, before uploading, to remove any stale files
             echo "*** Clearing storage container"
-            az storage blob delete-batch --account-name $stamp.public_storage_account_name --source '$web' --auth-mode key
+            az storage blob delete-batch --account-name $stamp.public_storage_account_name --source '$web' --auth-mode login
 
             if($LastExitCode -ne 0)
             {
@@ -306,7 +306,7 @@ jobs: # using jobs so they each run in parallel
 
             # upload compiled code to Storage $web container
             echo "*** Uploading UI application to Blob Storage"
-            az storage blob upload-batch --account-name $stamp.public_storage_account_name --destination '$web' --source $(Pipeline.Workspace)/uiApp/ --auth-mode key
+            az storage blob upload-batch --account-name $stamp.public_storage_account_name --destination '$web' --source $(Pipeline.Workspace)/uiApp/ --auth-mode login
 
             if($LastExitCode -ne 0)
             {
